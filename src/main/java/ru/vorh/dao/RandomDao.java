@@ -1,5 +1,6 @@
 package ru.vorh.dao;
 
+import org.springframework.dao.DataAccessException;
 import ru.vorh.dao.rowmappers.RandomNumberRM;
 import ru.vorh.model.RandomNumber;
 
@@ -23,7 +24,9 @@ public class RandomDao extends AbstractDao{
 
     public void insert(RandomNumber randomNumber){
 
-        String sql = "INSERT INTO random_experiment key,count VALUES (:key, :count)";
+        String sql = "INSERT INTO random_experiment (number, count)VALUES (:number, :count) " +
+                "ON CONFLICT (number) DO UPDATE " +
+                "SET count = :count";
         Map data = randomNumber.toMap();
 
         getNpjt().update(sql,data);
@@ -31,11 +34,23 @@ public class RandomDao extends AbstractDao{
 
     public RandomNumber getNumberByKey(int key){
 
-        String sql = "SELECT * FROM random_experiment WHERE key = :key";
+        String sql = "SELECT * FROM random_experiment WHERE number = :number";
 
         Map data = new HashMap();
         data.put("key", key);
 
-        return getNpjt().queryForObject(sql,data, new RandomNumberRM());
+        try {
+            return getNpjt().queryForObject(sql,data, new RandomNumberRM());
+        } catch (DataAccessException e) {
+            RandomNumber randomNumber = new RandomNumber();
+            randomNumber.setNumber(key);
+            return randomNumber;
+        }
+    }
+
+    public void clearStore(){
+        String sql ="DELETE FROM random_experiment";
+        Map data = createMap();
+        getNpjt().update(sql,data);
     }
 }

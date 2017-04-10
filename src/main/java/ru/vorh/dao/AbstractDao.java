@@ -3,6 +3,9 @@ package ru.vorh.dao;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by vorh on 4/10/17.
  */
@@ -18,5 +21,9 @@ public class AbstractDao {
 
     public NamedParameterJdbcTemplate getNpjt(){
         return new NamedParameterJdbcTemplate(dataSource);
+    }
+
+    public Map createMap(){
+        return new HashMap();
     }
 }

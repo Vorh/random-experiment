@@ -8,24 +8,31 @@ import java.util.Map;
  */
 public class RandomNumber {
 
-    private int key;
+    private int number;
     private int count;
 
+    public RandomNumber() {
+        count = 0;
+    }
 
     public Map toMap(){
         Map data = new HashMap();
-        data.put("key", key);
+        data.put("number", number);
         data.put("count",count);
         return data;
     }
 
-
-    public int getKey() {
-        return key;
+    public void increment(){
+        count++;
     }
 
-    public void setKey(int key) {
-        this.key = key;
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public int getCount() {

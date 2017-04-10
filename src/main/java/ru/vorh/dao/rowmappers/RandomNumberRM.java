@@ -15,7 +15,7 @@ public class RandomNumberRM implements RowMapper<RandomNumber>{
     public RandomNumber mapRow(ResultSet resultSet, int i) throws SQLException {
         RandomNumber randomNumber = new RandomNumber();
         randomNumber.setCount(resultSet.getInt("count"));
-        randomNumber.setKey(resultSet.getInt("key"));
+        randomNumber.setNumber(resultSet.getInt("number"));
         return randomNumber;
     }
 }
